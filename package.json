@@ -7,7 +7,10 @@
     "node": ">=22.12"
   },
   "scripts": {
+    "ngsl": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/build-ngsl.ts",
+    "predev": "npm run ngsl",
     "dev": "vite",
+    "prebuild": "npm run ngsl",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run"
@@ -18,9 +21,11 @@
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "papaparse": "^5.7.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { seedWords } from './db/seed.ts';
+import { requestPersistentStorage } from './db/storage.ts';
 import { HREF, useHashRoute } from './hooks/useHashRoute.ts';
 import HomeScreen from './screens/HomeScreen.tsx';
 import SettingsScreen from './screens/SettingsScreen.tsx';
@@ -12,6 +13,8 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // 승인되지 않아도 앱은 그대로 동작하므로 결과를 기다리지 않는다
+    requestPersistentStorage().catch(() => {});
     seedWords().then(
       () => setReady(true),
       (e: unknown) => setError(e instanceof Error ? e.message : String(e)),

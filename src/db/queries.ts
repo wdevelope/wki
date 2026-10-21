@@ -50,7 +50,8 @@ export interface Progress {
   streak: number;
 }
 
-export function useProgress(): Progress | undefined {
+/** 진행 현황. DB가 바뀌거나 tick이 바뀔 때마다 그 시각 기준으로 다시 계산한다. */
+export function useProgress(tick = 0): Progress | undefined {
   return useLiveQuery(async () => {
     const today = dayKey(Date.now());
     const [todayLogs, studiedWords, totalWords, days] = await Promise.all([
@@ -66,5 +67,5 @@ export function useProgress(): Progress | undefined {
       totalWords,
       streak: streak(new Set(days as string[]), today),
     };
-  });
+  }, [tick]);
 }

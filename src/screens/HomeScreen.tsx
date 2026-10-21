@@ -1,5 +1,7 @@
+import { useCallback, useState } from 'react';
 import { useProgress, useTodayQueue } from '../db/queries.ts';
 import { HREF } from '../hooks/useHashRoute.ts';
+import { useOnResume } from '../hooks/useOnResume.ts';
 
 const dateFormat = new Intl.DateTimeFormat('ko-KR', {
   timeZone: 'Asia/Seoul',
@@ -16,8 +18,11 @@ function summary(dueCount: number, newCount: number): string {
 }
 
 export default function HomeScreen() {
-  const queue = useTodayQueue();
-  const progress = useProgress();
+  // 앱으로 돌아올 때마다 그 시각 기준으로 날짜·남은 카드·통계를 다시 계산
+  const [tick, setTick] = useState(0);
+  useOnResume(useCallback(() => setTick((t) => t + 1), []));
+  const queue = useTodayQueue(tick);
+  const progress = useProgress(tick);
   if (!queue || !progress) return null;
 
   const { dueCount, newCount } = queue;

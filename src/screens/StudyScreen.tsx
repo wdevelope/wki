@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSettings, useTodayQueue } from '../db/queries.ts';
+import { useOnResume } from '../hooks/useOnResume.ts';
 import { LEARN_AHEAD_MS } from '../lib/queue.ts';
 import Flashcard from './Flashcard.tsx';
 
@@ -24,6 +25,14 @@ export default function StudyScreen({ onExit }: { onExit: () => void }) {
     const id = setTimeout(() => setTick((t) => t + 1), Math.max(0, wakeAt - Date.now()));
     return () => clearTimeout(id);
   }, [wakeAt]);
+
+  // 완료 화면에서 앱으로 돌아오면(다음 날 등) 다시 계산한다.
+  // 카드를 보는 중에는 다시 계산하지 않아 보던 카드가 바뀌지 않게 한다.
+  const finished = queue !== undefined && queue.current === null;
+  useOnResume(
+    useCallback(() => setTick((t) => t + 1), []),
+    finished,
+  );
 
   if (!queue || !settings) return null;
   const { current, word } = queue;

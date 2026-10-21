@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { seedWords } from './db/seed.ts';
+import StudyScreen from './screens/StudyScreen.tsx';
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -14,5 +15,5 @@ export default function App() {
 
   if (error) return <p className="status">{error}</p>;
   if (!ready) return <p className="status">단어 데이터를 준비하는 중…</p>;
-  return <main>WKI 단어장</main>;
+  return <StudyScreen onExit={() => {}} />;
 }

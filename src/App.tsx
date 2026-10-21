@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { seedWords } from './db/seed.ts';
 import { HREF, useHashRoute } from './hooks/useHashRoute.ts';
 import HomeScreen from './screens/HomeScreen.tsx';
+import SettingsScreen from './screens/SettingsScreen.tsx';
 import StudyScreen from './screens/StudyScreen.tsx';
 import TabBar from './screens/TabBar.tsx';
 
@@ -25,7 +26,7 @@ export default function App() {
   }
   return (
     <>
-      {route === 'settings' ? <main className="settings">설정</main> : <HomeScreen />}
+      {route === 'settings' ? <SettingsScreen /> : <HomeScreen />}
       <TabBar route={route} />
     </>
   );

@@ -45,6 +45,7 @@
 body {
   margin: 0;
   background: var(--paper);
+  word-break: keep-all;
 }
 
 button {
@@ -453,4 +454,126 @@ svg {
 .tab-bar a[aria-current='page'] {
   color: var(--ink);
   font-weight: 600;
+}
+
+/* 설정 화면 */
+
+.page-title {
+  margin: 0;
+  font-size: 1.625rem;
+  font-weight: 700;
+}
+
+.group {
+  margin-top: 2rem;
+}
+
+.group h2 {
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.group-note,
+.credits p {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.credits a {
+  color: inherit;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.field input[type='number'] {
+  width: 6rem;
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.5rem;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.field-hint {
+  grid-column: 1 / -1;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.field-switch input {
+  appearance: none;
+  position: relative;
+  width: 3rem;
+  height: 1.75rem;
+  margin: 0;
+  border-radius: 1rem;
+  background: var(--rule);
+  cursor: pointer;
+}
+
+.field-switch input::after {
+  content: '';
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+}
+
+.field-switch input:checked {
+  background: var(--good);
+}
+
+.field-switch input:checked::after {
+  left: 1.4375rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .field-switch input::after {
+    transition: left 150ms ease;
+  }
+}
+
+.backup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.backup-actions .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.button-secondary {
+  border: 1px solid var(--rule);
+  background: var(--card);
+  color: var(--ink);
+}
+
+.backup-message {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
 }

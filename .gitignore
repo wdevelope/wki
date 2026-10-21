@@ -1,0 +1,8 @@
+node_modules
+dist
+dev-dist
+*.tsbuildinfo
+.DS_Store
+
+# 빌드 시 data/ngsl.csv에서 생성
+public/ngsl.json

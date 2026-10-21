@@ -58,7 +58,8 @@ export function useProgress(tick = 0): Progress | undefined {
       db.reviewLogs.where('day').equals(today).toArray(),
       db.cards.count(),
       db.words.count(),
-      db.reviewLogs.orderBy('day').uniqueKeys(),
+      // uniqueKeys()의 nextunique 커서는 Safari에서 'Unable to open cursor'로 실패해 keys()로 읽는다
+      db.reviewLogs.orderBy('day').keys(),
     ]);
     return {
       reviewsToday: todayLogs.length,

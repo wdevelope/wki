@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { State } from 'ts-fsrs';
-import { dayKey } from '../lib/date.ts';
+import { dayKey, streak } from '../lib/date.ts';
 import type { Word } from '../lib/ngsl-csv.ts';
 import { buildQueue, type TodayQueue } from '../lib/queue.ts';
 import { db, DEFAULT_SETTINGS, type Settings } from './schema.ts';
@@ -37,4 +37,34 @@ export function useTodayQueue(tick = 0): TodayQueueWithWord | undefined {
     const word = queue.current ? await db.words.get(queue.current.rank) : undefined;
     return { ...queue, word };
   }, [tick]);
+}
+
+export interface Progress {
+  /** 오늘 평가한 횟수 */
+  reviewsToday: number;
+  /** 그중 처음 본 새 단어 수 */
+  newToday: number;
+  /** 한 번이라도 학습한 단어 수 */
+  studiedWords: number;
+  totalWords: number;
+  streak: number;
+}
+
+export function useProgress(): Progress | undefined {
+  return useLiveQuery(async () => {
+    const today = dayKey(Date.now());
+    const [todayLogs, studiedWords, totalWords, days] = await Promise.all([
+      db.reviewLogs.where('day').equals(today).toArray(),
+      db.cards.count(),
+      db.words.count(),
+      db.reviewLogs.orderBy('day').uniqueKeys(),
+    ]);
+    return {
+      reviewsToday: todayLogs.length,
+      newToday: todayLogs.filter((log) => log.state === State.New).length,
+      studiedWords,
+      totalWords,
+      streak: streak(new Set(days as string[]), today),
+    };
+  });
 }

@@ -341,3 +341,116 @@ svg {
   line-height: 1.6;
   color: var(--ink-2);
 }
+
+/* 오늘 화면 */
+
+.home,
+.settings {
+  padding: 1.5rem 0 calc(5rem + env(safe-area-inset-bottom));
+}
+
+.home-date {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.today {
+  margin-top: 0.75rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.today-summary {
+  margin: 0;
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+.today-start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  text-decoration: none;
+}
+
+.stats {
+  margin: 0;
+}
+
+.stats > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.stats dt {
+  color: var(--ink-2);
+}
+
+.stats dd {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.stats-sub {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.coverage {
+  grid-column: 1 / -1;
+  height: 0.375rem;
+  margin-top: 0.75rem;
+  border-radius: 0.375rem;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.coverage > div {
+  height: 100%;
+  background: var(--good);
+}
+
+/* 하단 탭 */
+
+.tab-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1px solid var(--rule);
+  background: var(--card);
+}
+
+.tab-bar a {
+  display: flex;
+  flex: 0 1 12rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.5rem 0 0.625rem;
+  font-size: 0.75rem;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.tab-bar a[aria-current='page'] {
+  color: var(--ink);
+  font-weight: 600;
+}

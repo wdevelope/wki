@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSettings, useTodayQueue } from '../db/queries.ts';
 import { useOnResume } from '../hooks/useOnResume.ts';
-import { LEARN_AHEAD_MS } from '../lib/queue.ts';
 import Flashcard from './Flashcard.tsx';
 
 const timeFormat = new Intl.DateTimeFormat('ko-KR', {
@@ -15,11 +14,8 @@ export default function StudyScreen({ onExit }: { onExit: () => void }) {
   const queue = useTodayQueue(tick);
   const settings = useSettings();
 
-  // 할 카드가 없을 때 남은 학습 단계 카드가 미리 보기 범위에 들어오면 큐를 다시 계산한다
-  const wakeAt =
-    queue && !queue.current && queue.nextLaterDue !== null
-      ? queue.nextLaterDue - LEARN_AHEAD_MS
-      : null;
+  // 할 카드가 없을 때 남은 학습 단계 카드의 기한이 되면 큐를 다시 계산한다
+  const wakeAt = queue && !queue.current ? queue.nextLaterDue : null;
   useEffect(() => {
     if (wakeAt === null) return;
     const id = setTimeout(() => setTick((t) => t + 1), Math.max(0, wakeAt - Date.now()));
@@ -61,14 +57,19 @@ export default function StudyScreen({ onExit }: { onExit: () => void }) {
         />
       ) : (
         <section className="finished">
-          <h1>오늘 학습을 마쳤어요</h1>
           {queue.nextLaterDue !== null ? (
-            <p>
-              {timeFormat.format(queue.nextLaterDue)}에 다시 볼 카드가 {queue.laterCount}장 있어요.
-              이 화면을 열어 두면 자동으로 이어집니다.
-            </p>
+            <>
+              <h1>잠깐 쉬어 가요</h1>
+              <p>
+                {timeFormat.format(queue.nextLaterDue)}에 다시 볼 카드가 {queue.laterCount}장 있어요.
+                이 화면을 열어 두면 자동으로 이어집니다.
+              </p>
+            </>
           ) : (
-            <p>내일 다시 만나요.</p>
+            <>
+              <h1>오늘 학습을 마쳤어요</h1>
+              <p>내일 다시 만나요.</p>
+            </>
           )}
           <button type="button" className="button" onClick={onExit}>
             오늘 화면으로

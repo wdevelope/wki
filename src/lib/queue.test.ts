@@ -91,15 +91,11 @@ describe('buildQueue', () => {
     expect(q.nextLaterDue).toBe(NOW + 5 * MIN);
   });
 
-  it('할 카드가 없으면 20분 안에 돌아올 학습 카드를 미리 보여 준다', () => {
-    const q = queue({ cards: [card(5, NOW + 15 * MIN, 0)], newPerDay: 0 });
-    expect(q.current?.rank).toBe(5);
-  });
-
-  it('20분 넘게 남았으면 오늘은 끝', () => {
-    const q = queue({ cards: [card(5, NOW + 30 * MIN, 0)], newPerDay: 0 });
+  it('할 카드가 없어도 기한 전 학습 카드는 미리 보여 주지 않는다', () => {
+    const q = queue({ cards: [card(5, NOW + MIN, 0)], newPerDay: 0 });
     expect(q.current).toBeNull();
     expect(q.laterCount).toBe(1);
+    expect(q.nextLaterDue).toBe(NOW + MIN);
   });
 
   it('모두 끝나면 null', () => {

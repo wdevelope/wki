@@ -33,7 +33,7 @@ export default function HomeScreen() {
       <h1 className="home-date">{dateFormat.format(Date.now())}</h1>
 
       <section className="today">
-        {queue.current ? (
+        {queue.current || queue.laterCount > 0 ? (
           <>
             <p className="today-summary">{summary(dueCount, newCount)}</p>
             <a className="button today-start" href={HREF.study}>
